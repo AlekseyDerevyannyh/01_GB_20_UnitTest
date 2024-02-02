@@ -5,7 +5,7 @@ public class Product {
     private String title; // Название
 
     // Геттеры, сеттеры:
-    public int getCost() {
+    public Integer getCost() {
         return cost;
     }
 

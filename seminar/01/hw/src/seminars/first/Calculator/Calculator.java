@@ -45,6 +45,9 @@ public class Calculator {
     public static double calculatingDiscount(double purchaseAmount, int discountAmount) {
         // purchaseAmount - сумма покупки
         // discountAmount - размер скидки
-        return 0; // Метод должен возвращать сумму покупки со скидкой
+        if (purchaseAmount <= 0 || discountAmount < 0 || discountAmount >= 100) {
+            throw new ArithmeticException("Invalid arguments!");
+        }
+        return purchaseAmount * (double)(100 - discountAmount) / 100; // Метод должен возвращать сумму покупки со скидкой
     }
 }

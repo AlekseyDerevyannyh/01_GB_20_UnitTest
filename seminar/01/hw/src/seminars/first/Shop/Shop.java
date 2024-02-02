@@ -18,13 +18,17 @@ public class Shop {
     // Метод должен вернуть отсортированный по возрастанию по цене список продуктов
     public List<Product> sortProductsByPrice() {
         // Допишите реализацию метода самостоятельно
-        return null;
+        return this.products.stream()
+                .sorted((prod1, prod2) -> prod1.getCost().compareTo(prod2.getCost()))
+                .toList();
     }
 
     // Метод должен вернуть самый дорогой продукт
     public Product getMostExpensiveProduct() {
         // Допишите реализацию метода самостоятельно
-        return null;
+        return this.products.stream()
+                .max((prod1, prod2) -> prod1.getCost().compareTo(prod2.getCost()))
+                .orElse(null);
     }
 
 }

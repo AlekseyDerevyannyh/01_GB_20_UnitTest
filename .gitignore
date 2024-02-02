@@ -8,7 +8,7 @@
 #.idea/compiler.xml
 #.idea/libraries/
 *.iws
-*.iml
+#*.iml
 *.ipr
 
 *.class
@@ -16,7 +16,7 @@
 
 tmp/
 target/
-.idea/
+#.idea/
 # resources/
 # webapp/
 # examples/

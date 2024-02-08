@@ -1,19 +1,22 @@
 package seminars.second.simple_shopping_cart;
 
-import org.junit.jupiter.api.Test;
-import seminars.second.model.Product;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import static org.assertj.core.api.Assertions.*;
 
 import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class ShopTest {
 
-    /**
-     * Создаем набор продуктов для магазина:
-     *
-     * @return список продуктов
-     */
+    // Создаем набор продуктов для магазина:
     public static List<Product> getStoreItems() {
         List<Product> products = new ArrayList<>();
 
@@ -26,10 +29,22 @@ class ShopTest {
         for (int i = 0; i < productNames.length; i++) {
             products.add(new Product(i + 1, productNames[i], productPrice[i], stock[i]));
         }
+
+        // тоже самое
+        // Product product = new Product(1,"bacon", 170.00d, 10);
+        // products.add(product);
         return products;
     }
 
     private ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+    // private Shop shop;
+    // private Cart cart;
+    //  @BeforeEach
+    //  void setup() {
+    //      shop = new Shop(getStoreItems());
+    //      cart = new Cart(shop);
+    //  }
 
 
 /*
@@ -49,130 +64,112 @@ class ShopTest {
 */
 
     /**
-     * 2.1. Нужно написать юнит-тест для проверки следующей <b>ситуации</b>:
-     * Пользователь положил в корзину несколько продуктов разной стоимости
+     * 2.1. Разработайте модульный тест для проверки, что общая стоимость
+     * корзины с разными товарами корректно рассчитывается
      * <br><b>Ожидаемый результат:</b>
      * Стоимость корзины посчиталась корректно
      */
     @Test
     void priceCartIsCorrectCalculated() {
         // Arrange (Подготовка)
-
+        Shop shop = new Shop(getStoreItems());
+        Cart cart = new Cart(shop);
         // Act (Выполнение)
-
+        cart.addProductToCartByID(1);
+        cart.addProductToCartByID(2);
+        cart.addProductToCartByID(3);
         // Assert (Проверка утверждения)
-
+        assertThat(cart.getTotalPrice()).isEqualTo(170.0 + 250.0 + 200);
     }
 
     /**
-     * 2.2. Нужно написать юнит-тест для проверки следующей <b>ситуации</b>:
-     * Пользователь положил в корзину несколько продуктов разной стоимости (несколько продуктов одного вида)
+     * 2.2. Создайте модульный тест для проверки, что общая стоимость
+     * корзины с множественными экземплярами одного и того же продукта корректно рассчитывается.
      * <br><b>Ожидаемый результат:</b>
      * Стоимость корзины посчиталась корректно
      */
     @Test
     void priceCartProductsSameTypeIsCorrectCalculated() {
-        // Arrange (Подготовка)
+        Shop shop = new Shop(getStoreItems());
+        Cart cart = new Cart(shop);
 
-        // Act (Выполнение)
+        cart.addProductToCartByID(1);
+        cart.addProductToCartByID(1);
+        cart.addProductToCartByID(2);
+        cart.addProductToCartByID(3);
 
-        // Assert (Проверка утверждения)
-
+        assertThat(cart.getTotalPrice()).isEqualTo(170.0 * 2 + 250.0 + 200);
     }
 
     /**
-     * 2.3. Нужно написать юнит-тест для проверки следующей <b>ситуации</b>:
-     * Пользователь удаляет товар из корзины
+     * 2.3. Напишите модульный тест для проверки, что при удалении
+     * товара из корзины происходит перерасчет общей стоимости корзины.
      * <br><b>Ожидаемый результат:</b>
      * Вызывается метод пересчета стоимости корзины, стоимость корзины меняется
      */
     @Test
     void whenChangingCartCostRecalculationIsCalled() {
-        // Arrange (Подготовка)
+        Shop shop = new Shop(getStoreItems());
+        Cart cart = new Cart(shop);
 
-        // Act (Выполнение)
+        cart.addProductToCartByID(1);
+        cart.addProductToCartByID(2);
+        cart.removeProductByID(1);
 
-        // Assert (Проверка утверждения)
-
+        assertThat(cart.getTotalPrice()).isEqualTo(250.0);
     }
 
     /**
-     * 2.4. Нужно написать юнит-тест для проверки следующей <b>ситуации</b>:
-     * Пользователь кладет в корзину продукт в некотором количестве (не весь оставшийся)
+     * 2.4. Разработайте модульный тест для проверки, что при добавлении определенного количества товара в корзину,
+     * общее количество этого товара в магазине соответствующим образом уменьшается.
      * <br><b>Ожидаемый результат:</b>
      * Количество товара в магазине уменьшается на число продуктов в корзине пользователя
      */
-    @Test
+
     void quantityProductsStoreChanging() {
-        // Arrange (Подготовка)
-
-        // Act (Выполнение)
-
-        // Assert (Проверка утверждения)
 
     }
 
     /**
-     * 2.5. Нужно написать юнит-тест для проверки следующей <b>ситуации</b>:
-     * Пользователь забрал последние оставшиеся продукты из магазина
+     * 2.5. Создайте модульный тест для проверки, что если пользователь забирает все имеющиеся продукты о
+     * пределенного типа из магазина, эти продукты больше не доступны для заказа.
      * <br><b>Ожидаемый результат:</b>
      * Больше такой продукт заказать нельзя, он не появляется на полке
      */
-    @Test
+
     void lastProductsDisappearFromStore() {
-        // Arrange (Подготовка)
-
-        // Act (Выполнение)
-
-        // Assert (Проверка утверждения)
 
     }
 
     /**
-     * 2.6. Нужно написать юнит-тест для проверки следующей <b>ситуации</b>:
-     * Пользователь удаляет продукт из корзины
+     * 2.6. Напишите модульный тест для проверки, что при удалении товара из корзины,
+     * общее количество этого товара в магазине соответствующим образом увеличивается.
      * <br><b>Ожидаемый результат:</b>
      * Количество продуктов этого типа на складе увеличивается на число удаленных из корзины продуктов
      */
-    @Test
     void deletedProductIsReturnedToShop() {
-        // Arrange (Подготовка)
-
-        // Act (Выполнение)
-
-        // Assert (Проверка утверждения)
 
     }
 
     /**
-     * 2.7. Нужно написать юнит-тест для проверки следующей <b>ситуации</b>:
-     * Пользователь вводит неверный номер продукта
+     * 2.7. Разработайте параметризованный модульный тест для проверки,
+     * что при вводе неверного идентификатора товара генерируется исключение RuntimeException.
      * <br><b>Ожидаемый результат:</b>
      * Исключение типа RuntimeException и сообщение Не найден продукт с id
      * *Сделать тест параметризованным
      */
-    @Test
-    void incorrectProductSelectionCausesException() {
-        // Arrange (Подготовка)
-
-        // Act (Выполнение)
-
-        // Assert (Проверка утверждения)
+    //@Test
+    void incorrectProductSelectionCausesException(int i) {
 
     }
 
     /**
-     * 2.8. Нужно написать юнит-тест для проверки следующей <b>ситуации</b>:
-     * Пользователь удаляет из корзины больше продуктов чем у него есть в корзине (удаляет продукты до того, как их добавить)
+     * 2.8.      * 2.8. Создайте модульный тест для проверки, что при попытке удалить из корзины больше товаров,
+     * чем там есть, генерируется исключение RuntimeException.удаляет продукты до того, как их добавить)
      * <br><b>Ожидаемый результат:</b> Исключение типа NoSuchFieldError и сообщение "В корзине не найден продукт с id"
      */
     @Test
     void incorrectProductRemoveCausesException() {
-        // Arrange (Подготовка)
-
-        // Act (Выполнение)
-
-        // Assert (Проверка утверждения)
 
     }
 
@@ -190,21 +187,18 @@ class ShopTest {
     //          Cart cart = new Cart(shop);
     //      }
 
+    @Test
+    void testSUM() {
+
+    }
 
     /**
-     * 2.10. Нужно изменить тест по следующим критериям:
+     * 2.10. Нужно оптимизировать тестовый метод, согласно следующим условиям:
      * <br> 1. Отображаемое имя - "Advanced test for calculating TotalPrice"
      * <br> 2. Тест повторяется 10 раз
      * <br> 3. Установлен таймаут на выполнение теста 70 Миллисекунд (unit = TimeUnit.MILLISECONDS)
      * <br> 4. После проверки работоспособности теста, его нужно выключить
      */
-    @Test
-    void priceCartIsCorrectCalculatedExt() {
-        // Arrange (Подготовка)
 
-        // Act (Выполнение)
-
-        // Assert (Проверка утверждения)
-
-    }
+   // ...
 }

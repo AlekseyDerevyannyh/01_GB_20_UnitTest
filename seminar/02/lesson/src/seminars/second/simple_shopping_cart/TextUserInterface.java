@@ -1,8 +1,4 @@
-package seminars.second.model;
-
-import seminars.second.model.Cart;
-import seminars.second.model.Product;
-import seminars.second.model.Shop;
+package seminars.second.simple_shopping_cart;
 
 import java.util.List;
 import java.util.Scanner;

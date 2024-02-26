@@ -1,62 +1,15 @@
 class Tasks:
-    # Задание 1
+    # Задание 1 - 2
     @staticmethod
     def find_average(numbers):
+        if not isinstance(numbers, list):
+            raise TypeError
         if not numbers:
             return 0
         return sum(numbers) / len(numbers)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # Задание 2
-    # @staticmethod
-    # def find_average(numbers):
-    #     if not isinstance(numbers, list):
-    #         raise TypeError("Input should be a list.")
-    #     if not numbers:
-    #         return 0
-    #     return sum(numbers) / len(numbers)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # Задание 3
+    # Задание 3 - 4
     class Person:
         def __init__(self, balance=0):
             self.balance = balance
@@ -75,27 +28,6 @@ class Tasks:
             self.balance += amount
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     # Задание 5
     @staticmethod
     def divide(a, b):
@@ -104,47 +36,10 @@ class Tasks:
         return a / b
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     # Задание 6
     @staticmethod
     def multiply(a, b):
         return a * b
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     # Задание 8
@@ -159,27 +54,6 @@ class Tasks:
         0
         """
         return n ** 2
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     # Задание 9
